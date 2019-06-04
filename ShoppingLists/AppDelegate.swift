@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  ShoppingLists
-//
-//  Created by Adrian Kwiatkowski 2 on 04/06/2019.
-//  Copyright © 2019 Adrian Kwiatkowski. All rights reserved.
-//
-
 import UIKit
 import CoreData
 
@@ -16,7 +8,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let homeViewController = UITabBarController()
+        window!.rootViewController = homeViewController
+        
+        
+        let firstVC = UINavigationController(rootViewController: CurrentListsViewController(currentLists: ["Current list cell", "Another current list cell"]))
+        firstVC.tabBarItem = UITabBarItem(title: "Current", image: #imageLiteral(resourceName: "iconCurrent"), tag: 0)
+        
+        let secondVC = UINavigationController(rootViewController: ArchivedListsViewController(archivedLists: ["Archived list cell", "Another archived list cell"]))
+        secondVC.tabBarItem = UITabBarItem(title: "Archived", image: #imageLiteral(resourceName: "iconArchived"), tag: 1)
+        
+        homeViewController.viewControllers = [firstVC, secondVC]
+        
+        window!.makeKeyAndVisible()
         return true
     }
 
