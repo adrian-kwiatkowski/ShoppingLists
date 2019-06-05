@@ -5,7 +5,7 @@ final class CurrentListsViewController: UIViewController {
     
     // MARK: Properties
     
-    var currentLists: [String]
+    private var currentLists: [String]
     
     // MARK: UI
     
@@ -84,7 +84,9 @@ extension CurrentListsViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = currentLists[indexPath.row]
-        print("clicked on \(selectedList)")
+        
+        let productVC = ProductsViewController(displayMode: .currentList, listName: selectedList, products: ["current product 1", "current product 2", "current product 3", "current product 4"])
+        navigationController?.pushViewController(productVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

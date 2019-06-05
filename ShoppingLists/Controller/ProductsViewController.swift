@@ -1,25 +1,34 @@
 import UIKit
 import SnapKit
 
-final class ArchivedListsViewController: UIViewController {
+final class ProductsViewController: UIViewController {
 
     // MARK: Properties
     
-    private var archivedLists: [String]
+    private var products: [String]
+    
+    enum DisplayMode {
+        case currentList
+        case archivedList
+    }
+    
+    private let displayMode: DisplayMode
     
     // MARK: UI
     
     private let tableView: UITableView = {
         let view = UITableView()
-        view.register(ListTableViewCell.self, forCellReuseIdentifier: "ArchivedListCell")
+        view.register(ProductTableViewCell.self, forCellReuseIdentifier: "ProductTableViewCell")
         return view
     }()
     
     // MARK: Initializers
     
-    init(archivedLists: [String]) {
-        self.archivedLists = archivedLists
+    init(displayMode: DisplayMode, listName: String, products: [String]) {
+        self.products = products
+        self.displayMode = displayMode
         super.init(nibName: nil, bundle: nil)
+        title = listName
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,8 +39,6 @@ final class ArchivedListsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = "Archived lists"
         
         setupUI()
         
@@ -52,40 +59,51 @@ final class ArchivedListsViewController: UIViewController {
         tableView.snp.makeConstraints { (make) in
             make.right.left.bottom.top.equalToSuperview()
         }
+        
+        if displayMode == .currentList {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addProductTapped))
+        }
+    }
+    
+    @objc private func addProductTapped() {
+        print("add new product tapped")
+    }
+    
+    @objc private func doneTapped() {
+        print("done tapped")
     }
 }
 
 // MARK: TableView Delegate + DataSource
 
-extension ArchivedListsViewController: UITableViewDelegate, UITableViewDataSource {
+extension ProductsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archivedLists.count
+        return products.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchivedListCell", for: indexPath) as? ListTableViewCell else { fatalError("Unable to dequeue ListTableViewCell") }
-        let archivedList = archivedLists[indexPath.row]
-        cell.textLabel?.text = archivedList
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as? ProductTableViewCell else { fatalError("Unable to dequeue ProductTableViewCell") }
+        cell.textLabel?.text = products[indexPath.row]
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedList = archivedLists[indexPath.row]
-        
-        let productVC = ProductsViewController(displayMode: .archivedList, listName: selectedList, products: ["archived product 1", "archived product 2", "archived product 3", "archived product 4"])
-        navigationController?.pushViewController(productVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            archivedLists.remove(at: indexPath.row)
+            products.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if displayMode == .currentList {
+            return UITableViewCell.EditingStyle.delete
+        } else {
+            return UITableViewCell.EditingStyle.none
         }
     }
 }
