@@ -5,7 +5,11 @@ final class CurrentListsViewController: UIViewController {
     
     // MARK: Properties
     
-    private var currentLists: [String]
+    private var currentLists: [String] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     // MARK: UI
     
@@ -58,7 +62,9 @@ final class CurrentListsViewController: UIViewController {
     }
     
     @objc private func addNewTapped() {
-        print("add new list tapped")
+        showPromptWithTextField(title: "New list name:") { (listName) in
+            self.currentLists.append(listName)
+        }
     }
 }
 

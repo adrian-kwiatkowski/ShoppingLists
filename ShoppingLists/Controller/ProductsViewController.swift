@@ -5,7 +5,11 @@ final class ProductsViewController: UIViewController {
 
     // MARK: Properties
     
-    private var products: [String]
+    private var products: [String] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     enum DisplayMode {
         case currentList
@@ -66,11 +70,9 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func addProductTapped() {
-        print("add new product tapped")
-    }
-    
-    @objc private func doneTapped() {
-        print("done tapped")
+        showPromptWithTextField(title: "New product name:") { (listName) in
+            self.products.append(listName)
+        }
     }
 }
 
