@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.rootViewController = homeViewController
         
         
-        let firstVC = UINavigationController(rootViewController: CurrentListsViewController(currentLists: ["Current list cell", "Another current list cell"]))
+        let firstVC = UINavigationController(rootViewController: CurrentListsViewController(currentLists: []))
         firstVC.tabBarItem = UITabBarItem(title: "Current", image: #imageLiteral(resourceName: "iconCurrent"), tag: 0)
         
         let secondVC = UINavigationController(rootViewController: ArchivedListsViewController(archivedLists: ["Archived list cell", "Another archived list cell"]))

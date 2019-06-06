@@ -5,11 +5,8 @@ final class CurrentListsViewController: UIViewController {
     
     // MARK: Properties
     
-    private var currentLists: [String] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var currentLists: [List]
+    private var dataManager = DataManager()
     
     // MARK: UI
     
@@ -21,7 +18,7 @@ final class CurrentListsViewController: UIViewController {
     
     // MARK: Initializers
 
-    init(currentLists: [String]) {
+    init(currentLists: [List]) {
         self.currentLists = currentLists
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,10 +42,21 @@ final class CurrentListsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        fetchData()
     }
     
     // MARK: Private methods
+    
+    private func fetchData() {
+        currentLists.removeAll()
+        currentLists = dataManager.fetchCurrentLists() ?? []
+        tableView.reloadData()
+    }
+    
+    private func createNewList(name: String) {
+        dataManager.createNewList(with: name)
+        fetchData()
+    }
 
     private func setupUI() {
         view.addSubview(tableView)
@@ -57,13 +65,12 @@ final class CurrentListsViewController: UIViewController {
             make.right.left.bottom.top.equalToSuperview()
         }
         
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTapped))
     }
     
     @objc private func addNewTapped() {
         showPromptWithTextField(title: "New list name:") { (listName) in
-            self.currentLists.append(listName)
+            self.createNewList(name: listName)
         }
     }
 }
@@ -84,14 +91,14 @@ extension CurrentListsViewController: UITableViewDelegate, UITableViewDataSource
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CurrentListCell", for: indexPath) as? ListTableViewCell else { fatalError("Unable to dequeue ListTableViewCell") }
         let currentList = currentLists[indexPath.row]
-        cell.textLabel?.text = currentList
+        cell.textLabel?.text = currentList.name
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = currentLists[indexPath.row]
         
-        let productVC = ProductsViewController(displayMode: .currentList, listName: selectedList, products: ["current product 1", "current product 2", "current product 3", "current product 4"])
+        let productVC = ProductsViewController(displayMode: .currentList, listName: selectedList.name, products: ["current product 1", "current product 2", "current product 3", "current product 4"])
         navigationController?.pushViewController(productVC, animated: true)
     }
     
@@ -99,7 +106,8 @@ extension CurrentListsViewController: UITableViewDelegate, UITableViewDataSource
         
         let archive = UITableViewRowAction(style: .normal, title: "Archive") { (action, indexPath) in
             let selectedList = self.currentLists[indexPath.row]
-            print("archive list: \(selectedList)")
+            self.dataManager.archive(selectedList)
+            self.fetchData()
         }
         
         archive.backgroundColor = UIColor.darkGray
