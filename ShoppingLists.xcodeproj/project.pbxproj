@@ -12,6 +12,7 @@
 		DA6401D522A7057D0065E666 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA6401D422A7057D0065E666 /* Assets.xcassets */; };
 		DA6401D722A70A290065E666 /* ArchivedListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6401D622A70A290065E666 /* ArchivedListsViewController.swift */; };
 		DA6401DE22A7147C0065E666 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6401DD22A7147C0065E666 /* ListTableViewCell.swift */; };
+		DA64750122AAEAD90026CA2C /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64750022AAEAD90026CA2C /* Product.swift */; };
 		DA65972522A85EE6009D2899 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA65972422A85EE6009D2899 /* ProductsViewController.swift */; };
 		DA65972722A867E6009D2899 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA65972622A867E6009D2899 /* ProductTableViewCell.swift */; };
 		DA75E48922A6E0F2009BB104 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75E48822A6E0F2009BB104 /* AppDelegate.swift */; };
@@ -43,6 +44,7 @@
 		DA6401D422A7057D0065E666 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA6401D622A70A290065E666 /* ArchivedListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedListsViewController.swift; sourceTree = "<group>"; };
 		DA6401DD22A7147C0065E666 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		DA64750022AAEAD90026CA2C /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA65972422A85EE6009D2899 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		DA65972622A867E6009D2899 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		DA75E48522A6E0F2009BB104 /* ShoppingLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +96,7 @@
 			children = (
 				DA75E48F22A6E0F2009BB104 /* ShoppingLists.xcdatamodeld */,
 				DA7AC13622A9BC63008B5251 /* List.swift */,
+				DA64750022AAEAD90026CA2C /* Product.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				DA6401D722A70A290065E666 /* ArchivedListsViewController.swift in Sources */,
 				DA65972722A867E6009D2899 /* ProductTableViewCell.swift in Sources */,
 				DA6401D322A6FD010065E666 /* CurrentListsViewController.swift in Sources */,
+				DA64750122AAEAD90026CA2C /* Product.swift in Sources */,
 				DA7AC13522A99F85008B5251 /* UIViewController+Extensions.swift in Sources */,
 				DA75E49122A6E0F2009BB104 /* ShoppingLists.xcdatamodeld in Sources */,
 				DA75E48922A6E0F2009BB104 /* AppDelegate.swift in Sources */,

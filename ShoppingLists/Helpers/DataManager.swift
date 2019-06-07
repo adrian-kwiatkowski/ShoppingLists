@@ -3,9 +3,32 @@ import CoreData
 
 struct DataManager {
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func fetchCurrentLists() -> [List]? {
+    func fetchProducts(for parentList: List) -> [Product] {
+        
+        var resultsArray = [Product]()
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
+        request.predicate = NSPredicate(format: "parentList == %@", argumentArray: [parentList])
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                let fetchedProductName = data.value(forKey: "name") as! String
+                let fetchedProductLastModificationDate = data.value(forKey: "lastModificationDate") as! Date
+                
+                let fetchedProduct = Product(name: fetchedProductName, lastModificationDate: fetchedProductLastModificationDate, parentList: parentList)
+                resultsArray.append(fetchedProduct)
+            }
+            return resultsArray
+        } catch {
+            print("Failed to load products for list \(parentList)")
+            return []
+        }
+    }
+    
+    func fetchCurrentLists() -> [List] {
         var resultsArray = [List]()
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
@@ -25,12 +48,12 @@ struct DataManager {
             return resultsArray
             
         } catch {
-            print("Failed")
-            return nil
+            print("Failed to load current lists")
+            return []
         }
     }
     
-    func fetchArchivedLists() -> [List]? {
+    func fetchArchivedLists() -> [List] {
         var resultsArray = [List]()
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
@@ -50,13 +73,13 @@ struct DataManager {
             return resultsArray
             
         } catch {
-            print("Failed")
-            return nil
+            print("Failed to load archived lists")
+            return []
         }
     }
     
     func createNewList(with name: String) {
-        let newList = List(name: name)
+        let newList = List(name: name)        
         
         let entity = NSEntityDescription.entity(forEntityName: "Lists", in: context)
         let newListManagedObject = NSManagedObject(entity: entity!, insertInto: context)

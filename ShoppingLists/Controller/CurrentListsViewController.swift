@@ -6,7 +6,7 @@ final class CurrentListsViewController: UIViewController {
     // MARK: Properties
     
     private var currentLists: [List] = []
-    private var dataManager = DataManager()
+    private let dataManager = DataManager()
     
     // MARK: UI
     
@@ -48,7 +48,7 @@ final class CurrentListsViewController: UIViewController {
     
     private func fetchData() {
         currentLists.removeAll()
-        currentLists = dataManager.fetchCurrentLists() ?? []
+        currentLists = dataManager.fetchCurrentLists()
         tableView.reloadData()
     }
     
@@ -97,7 +97,7 @@ extension CurrentListsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = currentLists[indexPath.row]
         
-        let productVC = ProductsViewController(displayMode: .currentList, listName: selectedList.name, products: ["current product 1", "current product 2", "current product 3", "current product 4"])
+        let productVC = ProductsViewController(displayMode: .currentList, parentList: selectedList)
         navigationController?.pushViewController(productVC, animated: true)
     }
     

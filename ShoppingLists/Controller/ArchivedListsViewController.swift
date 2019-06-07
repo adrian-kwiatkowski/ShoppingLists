@@ -6,7 +6,7 @@ final class ArchivedListsViewController: UIViewController {
     // MARK: Properties
     
     private var archivedLists: [List] = []
-    private var dataManager = DataManager()
+    private let dataManager = DataManager()
     
     // MARK: UI
     
@@ -49,7 +49,7 @@ final class ArchivedListsViewController: UIViewController {
     
     private func fetchData() {
         archivedLists.removeAll()
-        archivedLists = dataManager.fetchArchivedLists() ?? []
+        archivedLists = dataManager.fetchArchivedLists()
         tableView.reloadData()
     }
     
@@ -85,7 +85,7 @@ extension ArchivedListsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = archivedLists[indexPath.row]
         
-        let productVC = ProductsViewController(displayMode: .archivedList, listName: selectedList.name, products: ["archived product 1", "archived product 2", "archived product 3", "archived product 4"])
+        let productVC = ProductsViewController(displayMode: .archivedList, parentList: selectedList)
         navigationController?.pushViewController(productVC, animated: true)
     }
     

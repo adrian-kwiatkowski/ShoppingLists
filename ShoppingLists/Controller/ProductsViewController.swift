@@ -4,18 +4,15 @@ import SnapKit
 final class ProductsViewController: UIViewController {
 
     // MARK: Properties
-    
-    private var products: [String] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
+
     enum DisplayMode {
         case currentList
         case archivedList
     }
     
+    private var parentList: List
+    private var products: [Product] = []
+    private let dataManager = DataManager()
     private let displayMode: DisplayMode
     
     // MARK: UI
@@ -28,11 +25,11 @@ final class ProductsViewController: UIViewController {
     
     // MARK: Initializers
     
-    init(displayMode: DisplayMode, listName: String, products: [String]) {
-        self.products = products
+    init(displayMode: DisplayMode, parentList: List) {
         self.displayMode = displayMode
+        self.parentList = parentList
         super.init(nibName: nil, bundle: nil)
-        title = listName
+        title = parentList.name
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,7 +49,7 @@ final class ProductsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        fetchData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,6 +58,12 @@ final class ProductsViewController: UIViewController {
     }
     
     // MARK: Private methods
+    
+    private func fetchData() {
+        products.removeAll()
+        products = dataManager.fetchProducts(for: parentList)
+        tableView.reloadData()
+    }
     
     private func setupUI() {
         view.addSubview(tableView)
@@ -76,7 +79,7 @@ final class ProductsViewController: UIViewController {
     
     @objc private func addProductTapped() {
         showPromptWithTextField(title: "New product name:") { (listName) in
-            self.products.append(listName)
+//            self.products.append(listName)
         }
     }
 }
@@ -95,7 +98,7 @@ extension ProductsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as? ProductTableViewCell else { fatalError("Unable to dequeue ProductTableViewCell") }
-        cell.textLabel?.text = products[indexPath.row]
+        cell.textLabel?.text = products[indexPath.row].name
         return cell
     }
     
