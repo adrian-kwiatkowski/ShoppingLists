@@ -29,6 +29,30 @@ struct DataManager {
         }
     }
     
+    func fetchArchivedLists() -> [List]? {
+        var resultsArray = [List]()
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
+        request.predicate = NSPredicate(format: "archived == true")
+        do {
+            
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                let fetchedListName = data.value(forKey: "name") as! String
+                let fetchedListCreatedDate = data.value(forKey: "createdAt") as! Date
+                let fetchedListArchived = data.value(forKey: "archived") as! Bool
+                
+                let fetchedList = List(name: fetchedListName, createdAt: fetchedListCreatedDate, archived: fetchedListArchived)
+                resultsArray.append(fetchedList)
+            }
+            return resultsArray
+            
+        } catch {
+            print("Failed")
+            return nil
+        }
+    }
+    
     func createNewList(with name: String) {
         let newList = List(name: name)
         
@@ -59,6 +83,17 @@ struct DataManager {
                 } catch {
                     print("Failed updating")
                 }
+            }
+        }
+    }
+    
+    func delete(_ list: List) {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
+        request.predicate = NSPredicate(format: "name == %@ AND createdAt == %@ AND archived == true", argumentArray: [list.name, list.createdAt])
+        if let result = try? context.fetch(request) {
+            for object in result as! [NSManagedObject] {
+                context.delete(object)
+                print("successfully deleted: \(list)")
             }
         }
     }

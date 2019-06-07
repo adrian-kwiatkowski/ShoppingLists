@@ -5,7 +5,8 @@ final class ArchivedListsViewController: UIViewController {
 
     // MARK: Properties
     
-    private var archivedLists: [String]
+    private var archivedLists: [List] = []
+    private var dataManager = DataManager()
     
     // MARK: UI
     
@@ -17,14 +18,14 @@ final class ArchivedListsViewController: UIViewController {
     
     // MARK: Initializers
     
-    init(archivedLists: [String]) {
-        self.archivedLists = archivedLists
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     
     // MARK: Lifecycle
     
@@ -41,10 +42,16 @@ final class ArchivedListsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        fetchData()
     }
     
     // MARK: Private methods
+    
+    private func fetchData() {
+        archivedLists.removeAll()
+        archivedLists = dataManager.fetchArchivedLists() ?? []
+        tableView.reloadData()
+    }
     
     private func setupUI() {
         view.addSubview(tableView)
@@ -71,21 +78,24 @@ extension ArchivedListsViewController: UITableViewDelegate, UITableViewDataSourc
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArchivedListCell", for: indexPath) as? ListTableViewCell else { fatalError("Unable to dequeue ListTableViewCell") }
         let archivedList = archivedLists[indexPath.row]
-        cell.textLabel?.text = archivedList
+        cell.textLabel?.text = archivedList.name
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = archivedLists[indexPath.row]
         
-        let productVC = ProductsViewController(displayMode: .archivedList, listName: selectedList, products: ["archived product 1", "archived product 2", "archived product 3", "archived product 4"])
+        let productVC = ProductsViewController(displayMode: .archivedList, listName: selectedList.name, products: ["archived product 1", "archived product 2", "archived product 3", "archived product 4"])
         navigationController?.pushViewController(productVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let selectedList = archivedLists[indexPath.row]
+            dataManager.delete(selectedList)
             archivedLists.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            fetchData()
         }
     }
 }

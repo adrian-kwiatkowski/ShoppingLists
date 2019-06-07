@@ -55,6 +55,11 @@ final class ProductsViewController: UIViewController {
         tableView.reloadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.popViewController(animated: false)
+    }
+    
     // MARK: Private methods
     
     private func setupUI() {

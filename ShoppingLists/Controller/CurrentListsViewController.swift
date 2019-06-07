@@ -5,7 +5,7 @@ final class CurrentListsViewController: UIViewController {
     
     // MARK: Properties
     
-    private var currentLists: [List]
+    private var currentLists: [List] = []
     private var dataManager = DataManager()
     
     // MARK: UI
@@ -18,8 +18,7 @@ final class CurrentListsViewController: UIViewController {
     
     // MARK: Initializers
 
-    init(currentLists: [List]) {
-        self.currentLists = currentLists
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
