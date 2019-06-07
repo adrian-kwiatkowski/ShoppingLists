@@ -18,7 +18,7 @@ struct DataManager {
                 let fetchedProductName = data.value(forKey: "name") as! String
                 let fetchedProductLastModificationDate = data.value(forKey: "lastModificationDate") as! Date
                 
-                let fetchedProduct = Product(name: fetchedProductName, lastModificationDate: fetchedProductLastModificationDate, parentList: parentList)
+                let fetchedProduct = Product(name: fetchedProductName, lastModificationDate: fetchedProductLastModificationDate, parentList: (parentList.name, parentList.lastModificationDate))
                 resultsArray.append(fetchedProduct)
             }
             return resultsArray
@@ -76,6 +76,18 @@ struct DataManager {
             print("Failed to load archived lists")
             return []
         }
+    }
+    
+    func createNewProduct(with name: String, parentList: List) {
+        let newProduct = Product(name: name, parentList: (parentList.name, parentList.lastModificationDate))
+        
+        let entity = NSEntityDescription.entity(forEntityName: "Products", in: context)
+        let newListManagedObject = NSManagedObject(entity: entity!, insertInto: context)
+        
+        newListManagedObject.setValue(newProduct.name, forKey: "name")
+        newListManagedObject.setValue(newProduct.lastModificationDate, forKey: "lastModificationDate")
+        newListManagedObject.setValue(newProduct.parentList.name, forKey: "parentListName")
+        newListManagedObject.setValue(newProduct.parentList.lastModificationDate, forKey: "parentListLastModificationDate")
     }
     
     func createNewList(with name: String) {

@@ -95,10 +95,10 @@ extension CurrentListsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedList = currentLists[indexPath.row]
-        
-        let productVC = ProductsViewController(displayMode: .currentList, parentList: selectedList)
-        navigationController?.pushViewController(productVC, animated: true)
+//        let selectedList = currentLists[indexPath.row]
+//        
+//        let productVC = ProductsViewController(displayMode: .currentList, parentList: selectedList)
+//        navigationController?.pushViewController(productVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

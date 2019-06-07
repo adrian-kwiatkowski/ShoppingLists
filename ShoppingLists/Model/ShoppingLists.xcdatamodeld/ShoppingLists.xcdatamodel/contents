@@ -4,15 +4,15 @@
         <attribute name="archived" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Products" inverseName="parentList" inverseEntity="Products" syncable="YES"/>
     </entity>
     <entity name="Products" representedClassName="Products" syncable="YES" codeGenerationType="class">
         <attribute name="lastModificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="parentList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lists" inverseName="products" inverseEntity="Lists" syncable="YES"/>
+        <attribute name="parentListLastModificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="parentListName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Lists" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Products" positionX="-54" positionY="18" width="128" height="90"/>
+        <element name="Lists" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Products" positionX="-54" positionY="18" width="128" height="105"/>
     </elements>
 </model>

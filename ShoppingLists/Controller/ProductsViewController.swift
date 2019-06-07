@@ -65,6 +65,11 @@ final class ProductsViewController: UIViewController {
         tableView.reloadData()
     }
     
+    private func createNewProduct(name: String) {
+        dataManager.createNewProduct(with: name, parentList: parentList)
+        fetchData()
+    }
+    
     private func setupUI() {
         view.addSubview(tableView)
         
@@ -78,8 +83,8 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func addProductTapped() {
-        showPromptWithTextField(title: "New product name:") { (listName) in
-//            self.products.append(listName)
+        showPromptWithTextField(title: "New product name:") { (productName) in
+            self.createNewProduct(name: productName)
         }
     }
 }
