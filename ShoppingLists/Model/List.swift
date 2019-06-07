@@ -2,12 +2,12 @@ import Foundation
 
 struct List {
     let name: String
-    let createdAt: Date
+    let lastModificationDate: Date
     let archived: Bool
     
-    init(name: String, createdAt: Date = Date(), archived: Bool = false) {
+    init(name: String, lastModificationDate: Date = Date(), archived: Bool = false) {
         self.name = name
-        self.createdAt = createdAt
+        self.lastModificationDate = lastModificationDate
         self.archived = archived
     }
 }

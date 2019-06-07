@@ -1,11 +1,3 @@
-//
-//  ShoppingListsTests.swift
-//  ShoppingListsTests
-//
-//  Created by Adrian Kwiatkowski 2 on 04/06/2019.
-//  Copyright © 2019 Adrian Kwiatkowski. All rights reserved.
-//
-
 import XCTest
 @testable import ShoppingLists
 

@@ -10,15 +10,16 @@ struct DataManager {
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
         request.predicate = NSPredicate(format: "archived == false")
+        request.sortDescriptors = [NSSortDescriptor(key: "lastModificationDate", ascending: true)]
         do {
             
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
                 let fetchedListName = data.value(forKey: "name") as! String
-                let fetchedListCreatedDate = data.value(forKey: "createdAt") as! Date
+                let fetchedListLastModificationDate = data.value(forKey: "lastModificationDate") as! Date
                 let fetchedListArchived = data.value(forKey: "archived") as! Bool
                 
-                let fetchedList = List(name: fetchedListName, createdAt: fetchedListCreatedDate, archived: fetchedListArchived)
+                let fetchedList = List(name: fetchedListName, lastModificationDate: fetchedListLastModificationDate, archived: fetchedListArchived)
                 resultsArray.append(fetchedList)
             }
             return resultsArray
@@ -34,15 +35,16 @@ struct DataManager {
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
         request.predicate = NSPredicate(format: "archived == true")
+        request.sortDescriptors = [NSSortDescriptor(key: "lastModificationDate", ascending: true)]
         do {
             
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
                 let fetchedListName = data.value(forKey: "name") as! String
-                let fetchedListCreatedDate = data.value(forKey: "createdAt") as! Date
+                let fetchedListLastModificationDate = data.value(forKey: "lastModificationDate") as! Date
                 let fetchedListArchived = data.value(forKey: "archived") as! Bool
                 
-                let fetchedList = List(name: fetchedListName, createdAt: fetchedListCreatedDate, archived: fetchedListArchived)
+                let fetchedList = List(name: fetchedListName, lastModificationDate: fetchedListLastModificationDate, archived: fetchedListArchived)
                 resultsArray.append(fetchedList)
             }
             return resultsArray
@@ -60,7 +62,7 @@ struct DataManager {
         let newListManagedObject = NSManagedObject(entity: entity!, insertInto: context)
         
         newListManagedObject.setValue(newList.name, forKey: "name")
-        newListManagedObject.setValue(newList.createdAt, forKey: "createdAt")
+        newListManagedObject.setValue(newList.lastModificationDate, forKey: "lastModificationDate")
         newListManagedObject.setValue(newList.archived, forKey: "archived")
         
         do {
@@ -73,10 +75,11 @@ struct DataManager {
     
     func archive(_ list: List) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
-        request.predicate = NSPredicate(format: "name == %@ AND createdAt == %@ AND archived == false", argumentArray: [list.name, list.createdAt])
+        request.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND archived == false", argumentArray: [list.name, list.lastModificationDate])
         if let result = try? context.fetch(request) {
             for object in result as! [NSManagedObject] {
                 object.setValue(true, forKey: "archived")
+                object.setValue(Date(), forKey: "lastModificationDate")
                 do {
                     try context.save()
                     print("successully updated list: \(list)")
@@ -89,7 +92,7 @@ struct DataManager {
     
     func delete(_ list: List) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
-        request.predicate = NSPredicate(format: "name == %@ AND createdAt == %@ AND archived == true", argumentArray: [list.name, list.createdAt])
+        request.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND archived == true", argumentArray: [list.name, list.lastModificationDate])
         if let result = try? context.fetch(request) {
             for object in result as! [NSManagedObject] {
                 context.delete(object)
