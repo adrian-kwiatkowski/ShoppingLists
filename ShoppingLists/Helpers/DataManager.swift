@@ -116,29 +116,55 @@ struct DataManager {
     }
     
     func archive(_ list: List) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
-        request.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND archived == false", argumentArray: [list.name, list.lastModificationDate])
-        if let result = try? context.fetch(request) {
+        let modificationDate = Date()
+        
+        let listRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
+        listRequest.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND archived == false", argumentArray: [list.name, list.lastModificationDate])
+        if let result = try? context.fetch(listRequest) {
             for object in result as! [NSManagedObject] {
                 object.setValue(true, forKey: "archived")
-                object.setValue(Date(), forKey: "lastModificationDate")
+                object.setValue(modificationDate, forKey: "lastModificationDate")
                 do {
                     try context.save()
                     print("successully updated list: \(list)")
                 } catch {
-                    print("Failed updating")
+                    print("Failed updating list")
+                }
+            }
+        }
+        
+        let productRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
+        productRequest.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [list.name, list.lastModificationDate])
+        if let result = try? context.fetch(productRequest) {
+            for object in result as! [NSManagedObject] {
+                object.setValue(modificationDate, forKey: "parentListLastModificationDate")
+                object.setValue(modificationDate, forKey: "lastModificationDate")
+                do {
+                    try context.save()
+                    print("successully updated products in: \(list)")
+                } catch {
+                    print("Failed updating products")
                 }
             }
         }
     }
     
     func delete(_ list: List) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
-        request.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND archived == true", argumentArray: [list.name, list.lastModificationDate])
-        if let result = try? context.fetch(request) {
+        let listRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
+        listRequest.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND archived == true", argumentArray: [list.name, list.lastModificationDate])
+        if let result = try? context.fetch(listRequest) {
             for object in result as! [NSManagedObject] {
                 context.delete(object)
                 print("successfully deleted: \(list)")
+            }
+        }
+        
+        let productRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
+        productRequest.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [list.name, list.lastModificationDate])
+        if let result = try? context.fetch(productRequest) {
+            for object in result as! [NSManagedObject] {
+                context.delete(object)
+                print("successfully deleted products in: \(list)")
             }
         }
     }
