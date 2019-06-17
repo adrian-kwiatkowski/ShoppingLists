@@ -10,7 +10,7 @@ struct DataManager {
         var resultsArray = [Product]()
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
-        request.predicate = NSPredicate(format: "parentList == %@", argumentArray: [parentList])
+        request.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [parentList.name, parentList.lastModificationDate])
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         do {
             let result = try context.fetch(request)
@@ -88,6 +88,13 @@ struct DataManager {
         newListManagedObject.setValue(newProduct.lastModificationDate, forKey: "lastModificationDate")
         newListManagedObject.setValue(newProduct.parentList.name, forKey: "parentListName")
         newListManagedObject.setValue(newProduct.parentList.lastModificationDate, forKey: "parentListLastModificationDate")
+        
+        do {
+            try context.save()
+            print("successully saved product: \(newProduct)")
+        } catch {
+            print("Failed saving")
+        }
     }
     
     func createNewList(with name: String) {
@@ -132,6 +139,17 @@ struct DataManager {
             for object in result as! [NSManagedObject] {
                 context.delete(object)
                 print("successfully deleted: \(list)")
+            }
+        }
+    }
+    
+    func delete(_ product: Product) {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
+        request.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [product.name, product.lastModificationDate, product.parentList.name, product.parentList.lastModificationDate])
+        if let result = try? context.fetch(request) {
+            for object in result as! [NSManagedObject] {
+                context.delete(object)
+                print("successfully deleted: \(product)")
             }
         }
     }

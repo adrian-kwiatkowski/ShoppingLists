@@ -83,10 +83,10 @@ extension ArchivedListsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let selectedList = archivedLists[indexPath.row]
-//        
-//        let productVC = ProductsViewController(displayMode: .archivedList, parentList: selectedList)
-//        navigationController?.pushViewController(productVC, animated: true)
+        let selectedList = archivedLists[indexPath.row]
+        
+        let productVC = ProductsViewController(displayMode: .archivedList, parentList: selectedList)
+        navigationController?.pushViewController(productVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
