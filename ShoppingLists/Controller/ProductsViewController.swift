@@ -83,7 +83,7 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func addProductTapped() {
-        showPromptWithTextField(title: "New product name:") { (productName) in
+        showPromptWithTextField(title: "Add new product:") { (productName) in
             self.createNewProduct(name: productName)
         }
     }

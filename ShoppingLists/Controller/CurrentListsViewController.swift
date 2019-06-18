@@ -68,7 +68,7 @@ final class CurrentListsViewController: UIViewController {
     }
     
     @objc private func addNewTapped() {
-        showPromptWithTextField(title: "New list name:") { (listName) in
+        showPromptWithTextField(title: "Create new list:") { (listName) in
             self.createNewList(name: listName)
         }
     }

@@ -6,7 +6,7 @@ extension UIViewController {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         alertController.addTextField()
         
-        let submitAction = UIAlertAction(title: "Create", style: .default) { _ in
+        let submitAction = UIAlertAction(title: "OK", style: .default) { _ in
             guard let answer = alertController.textFields![0].text else { return }
             guard !answer.isEmpty else { return }
             submitAction(answer)
