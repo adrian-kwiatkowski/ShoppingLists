@@ -21,7 +21,7 @@
 		DA75E4A122A6E0F5009BB104 /* ShoppingListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75E4A022A6E0F5009BB104 /* ShoppingListsTests.swift */; };
 		DA7AC13522A99F85008B5251 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7AC13422A99F85008B5251 /* UIViewController+Extensions.swift */; };
 		DA7AC13722A9BC63008B5251 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7AC13622A9BC63008B5251 /* List.swift */; };
-		DA7AC13A22A9C28B008B5251 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7AC13922A9C28B008B5251 /* DataManager.swift */; };
+		DA7AC13A22A9C28B008B5251 /* ProductDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7AC13922A9C28B008B5251 /* ProductDataManager.swift */; };
 		DAD44DAC22B97FB900E4525F /* ListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD44DAB22B97FB900E4525F /* ListDataManager.swift */; };
 		E8C69D857384169F676CB4BD /* Pods_ShoppingLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E03CD5F3FB15F867EAAA7CB2 /* Pods_ShoppingLists.framework */; };
 /* End PBXBuildFile section */
@@ -58,7 +58,7 @@
 		DA75E4A222A6E0F5009BB104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA7AC13422A99F85008B5251 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DA7AC13622A9BC63008B5251 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		DA7AC13922A9C28B008B5251 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		DA7AC13922A9C28B008B5251 /* ProductDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDataManager.swift; sourceTree = "<group>"; };
 		DAD44DAB22B97FB900E4525F /* ListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataManager.swift; sourceTree = "<group>"; };
 		E03CD5F3FB15F867EAAA7CB2 /* Pods_ShoppingLists.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoppingLists.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0DB2FFAEF4B0C4C36B91CA0 /* Pods_ShoppingListsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoppingListsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,7 +178,7 @@
 		DA7AC13822A9C277008B5251 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				DA7AC13922A9C28B008B5251 /* DataManager.swift */,
+				DA7AC13922A9C28B008B5251 /* ProductDataManager.swift */,
 				DAD44DAB22B97FB900E4525F /* ListDataManager.swift */,
 			);
 			path = Helpers;
@@ -369,7 +369,7 @@
 			files = (
 				DA65972522A85EE6009D2899 /* ProductsViewController.swift in Sources */,
 				DAD44DAC22B97FB900E4525F /* ListDataManager.swift in Sources */,
-				DA7AC13A22A9C28B008B5251 /* DataManager.swift in Sources */,
+				DA7AC13A22A9C28B008B5251 /* ProductDataManager.swift in Sources */,
 				DA6401D722A70A290065E666 /* ArchivedListsViewController.swift in Sources */,
 				DA65972722A867E6009D2899 /* ProductTableViewCell.swift in Sources */,
 				DA6401D322A6FD010065E666 /* CurrentListsViewController.swift in Sources */,
