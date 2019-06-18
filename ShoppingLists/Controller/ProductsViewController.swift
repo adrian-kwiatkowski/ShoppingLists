@@ -12,7 +12,7 @@ final class ProductsViewController: UIViewController {
     
     private var parentList: List
     private var products: [Product] = []
-    private let dataManager = DataManager()
+    private let dataManager = ProductDataManager()
     private let displayMode: DisplayMode
     
     // MARK: UI

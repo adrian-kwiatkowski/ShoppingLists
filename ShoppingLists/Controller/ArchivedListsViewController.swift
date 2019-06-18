@@ -6,7 +6,7 @@ final class ArchivedListsViewController: UIViewController {
     // MARK: Properties
     
     private var archivedLists: [List] = []
-    private let dataManager = DataManager()
+    private let dataManager = ListDataManager()
     
     // MARK: UI
     

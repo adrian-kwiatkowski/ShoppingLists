@@ -6,7 +6,7 @@ final class CurrentListsViewController: UIViewController {
     // MARK: Properties
     
     private var currentLists: [List] = []
-    private let dataManager = DataManager()
+    private let dataManager = ListDataManager()
     
     // MARK: UI
     
