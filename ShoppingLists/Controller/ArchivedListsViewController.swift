@@ -49,7 +49,7 @@ final class ArchivedListsViewController: UIViewController {
     
     private func fetchData() {
         archivedLists.removeAll()
-        archivedLists = dataManager.fetchArchivedLists()
+        archivedLists = dataManager.fetchLists(archived: true)
         tableView.reloadData()
     }
     

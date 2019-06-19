@@ -48,7 +48,7 @@ final class CurrentListsViewController: UIViewController {
     
     private func fetchData() {
         currentLists.removeAll()
-        currentLists = dataManager.fetchCurrentLists()
+        currentLists = dataManager.fetchLists()
         tableView.reloadData()
     }
     

@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-struct ListDataManager {
+struct ListDataManager: DataManager {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -15,19 +15,14 @@ struct ListDataManager {
         newListManagedObject.setValue(newList.lastModificationDate, forKey: "lastModificationDate")
         newListManagedObject.setValue(newList.archived, forKey: "archived")
         
-        do {
-            try context.save()
-            print("successully saved list: \(newList)")
-        } catch {
-            print("Failed saving")
-        }
+        save(context)
     }
     
-    func fetchCurrentLists() -> [List] {
+    func fetchLists(archived: Bool = false) -> [List] {
         var resultsArray = [List]()
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
-        request.predicate = NSPredicate(format: "archived == false")
+        request.predicate = NSPredicate(format: "archived == %@", argumentArray: [archived])
         request.sortDescriptors = [NSSortDescriptor(key: "lastModificationDate", ascending: true)]
         do {
             
@@ -43,32 +38,7 @@ struct ListDataManager {
             return resultsArray
             
         } catch {
-            print("Failed to load current lists")
-            return []
-        }
-    }
-    
-    func fetchArchivedLists() -> [List] {
-        var resultsArray = [List]()
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Lists")
-        request.predicate = NSPredicate(format: "archived == true")
-        request.sortDescriptors = [NSSortDescriptor(key: "lastModificationDate", ascending: true)]
-        do {
-            
-            let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
-                let fetchedListName = data.value(forKey: "name") as! String
-                let fetchedListLastModificationDate = data.value(forKey: "lastModificationDate") as! Date
-                let fetchedListArchived = data.value(forKey: "archived") as! Bool
-                
-                let fetchedList = List(name: fetchedListName, lastModificationDate: fetchedListLastModificationDate, archived: fetchedListArchived)
-                resultsArray.append(fetchedList)
-            }
-            return resultsArray
-            
-        } catch {
-            print("Failed to load archived lists")
+            print("Failed to load lists")
             return []
         }
     }
@@ -82,29 +52,11 @@ struct ListDataManager {
             for object in result as! [NSManagedObject] {
                 object.setValue(true, forKey: "archived")
                 object.setValue(modificationDate, forKey: "lastModificationDate")
-                do {
-                    try context.save()
-                    print("successully updated list: \(list)")
-                } catch {
-                    print("Failed updating list")
-                }
+                save(context)
             }
         }
         
-        let productRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
-        productRequest.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [list.name, list.lastModificationDate])
-        if let result = try? context.fetch(productRequest) {
-            for object in result as! [NSManagedObject] {
-                object.setValue(modificationDate, forKey: "parentListLastModificationDate")
-                object.setValue(modificationDate, forKey: "lastModificationDate")
-                do {
-                    try context.save()
-                    print("successully updated products in: \(list)")
-                } catch {
-                    print("Failed updating products")
-                }
-            }
-        }
+        ProductDataManager().updateChildren(of: (list.name, list.lastModificationDate), with: modificationDate)
     }
     
     func delete(_ list: List) {
@@ -117,14 +69,7 @@ struct ListDataManager {
             }
         }
         
-        let productRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
-        productRequest.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [list.name, list.lastModificationDate])
-        if let result = try? context.fetch(productRequest) {
-            for object in result as! [NSManagedObject] {
-                context.delete(object)
-                print("successfully deleted products in: \(list)")
-            }
-        }
+        ProductDataManager().deleteChildren(of: (list.name, list.lastModificationDate))
     }
 }
 

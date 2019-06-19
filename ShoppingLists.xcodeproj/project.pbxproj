@@ -23,6 +23,7 @@
 		DA7AC13722A9BC63008B5251 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7AC13622A9BC63008B5251 /* List.swift */; };
 		DA7AC13A22A9C28B008B5251 /* ProductDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7AC13922A9C28B008B5251 /* ProductDataManager.swift */; };
 		DAD44DAC22B97FB900E4525F /* ListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD44DAB22B97FB900E4525F /* ListDataManager.swift */; };
+		DAD44DAE22B9833100E4525F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD44DAD22B9833100E4525F /* DataManager.swift */; };
 		E8C69D857384169F676CB4BD /* Pods_ShoppingLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E03CD5F3FB15F867EAAA7CB2 /* Pods_ShoppingLists.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		DA7AC13622A9BC63008B5251 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		DA7AC13922A9C28B008B5251 /* ProductDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDataManager.swift; sourceTree = "<group>"; };
 		DAD44DAB22B97FB900E4525F /* ListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataManager.swift; sourceTree = "<group>"; };
+		DAD44DAD22B9833100E4525F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E03CD5F3FB15F867EAAA7CB2 /* Pods_ShoppingLists.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoppingLists.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0DB2FFAEF4B0C4C36B91CA0 /* Pods_ShoppingListsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoppingListsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -180,6 +182,7 @@
 			children = (
 				DA7AC13922A9C28B008B5251 /* ProductDataManager.swift */,
 				DAD44DAB22B97FB900E4525F /* ListDataManager.swift */,
+				DAD44DAD22B9833100E4525F /* DataManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				DA7AC13522A99F85008B5251 /* UIViewController+Extensions.swift in Sources */,
 				DA75E49122A6E0F2009BB104 /* ShoppingLists.xcdatamodeld in Sources */,
 				DA75E48922A6E0F2009BB104 /* AppDelegate.swift in Sources */,
+				DAD44DAE22B9833100E4525F /* DataManager.swift in Sources */,
 				DA6401DE22A7147C0065E666 /* ListTableViewCell.swift in Sources */,
 				DA7AC13722A9BC63008B5251 /* List.swift in Sources */,
 			);

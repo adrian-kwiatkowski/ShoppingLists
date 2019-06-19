@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-struct ProductDataManager {
+struct ProductDataManager: DataManager {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -16,12 +16,7 @@ struct ProductDataManager {
         newListManagedObject.setValue(newProduct.parentList.name, forKey: "parentListName")
         newListManagedObject.setValue(newProduct.parentList.lastModificationDate, forKey: "parentListLastModificationDate")
         
-        do {
-            try context.save()
-            print("successully saved product: \(newProduct)")
-        } catch {
-            print("Failed saving")
-        }
+        save(context)
     }
     
     func fetchProducts(for parentList: List) -> [Product] {
@@ -47,6 +42,18 @@ struct ProductDataManager {
         }
     }
     
+    func updateChildren(of list: (name: String, lastModificationDate: Date), with newDate: Date) {
+        let productRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
+        productRequest.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [list.name, list.lastModificationDate])
+        if let result = try? context.fetch(productRequest) {
+            for object in result as! [NSManagedObject] {
+                object.setValue(newDate, forKey: "parentListLastModificationDate")
+                object.setValue(newDate, forKey: "lastModificationDate")
+                save(context)
+            }
+        }
+    }
+    
     func delete(_ product: Product) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
         request.predicate = NSPredicate(format: "name == %@ AND lastModificationDate == %@ AND parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [product.name, product.lastModificationDate, product.parentList.name, product.parentList.lastModificationDate])
@@ -54,6 +61,17 @@ struct ProductDataManager {
             for object in result as! [NSManagedObject] {
                 context.delete(object)
                 print("successfully deleted: \(product)")
+            }
+        }
+    }
+    
+    func deleteChildren(of list: (name: String, lastModificationDate: Date)) {
+        let productRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Products")
+        productRequest.predicate = NSPredicate(format: "parentListName == %@ AND parentListLastModificationDate == %@", argumentArray: [list.name, list.lastModificationDate])
+        if let result = try? context.fetch(productRequest) {
+            for object in result as! [NSManagedObject] {
+                context.delete(object)
+                print("successfully deleted products in: \(list)")
             }
         }
     }
