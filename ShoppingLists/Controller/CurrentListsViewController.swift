@@ -101,16 +101,15 @@ extension CurrentListsViewController: UITableViewDelegate, UITableViewDataSource
         navigationController?.pushViewController(productVC, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let archive = UITableViewRowAction(style: .normal, title: "Archive") { (action, indexPath) in
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let contextItem = UIContextualAction(style: .normal, title: "Archive") {  (contextualAction, view, boolValue) in
             let selectedList = self.currentLists[indexPath.row]
             self.dataManager.archive(selectedList)
             self.fetchData()
         }
-        
-        archive.backgroundColor = UIColor.darkGray
-        
-        return [archive]
+        contextItem.backgroundColor = UIColor.darkGray
+        let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
+
+        return swipeActions
     }
 }
